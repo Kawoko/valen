@@ -1,65 +1,149 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useRef } from "react";
+
+export default function ValentinePage() {
+  const [noClickCount, setNoClickCount] = useState(0);
+  const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
+  const [showVideo, setShowVideo] = useState(false);
+  const [buttonsVisible, setButtonsVisible] = useState(true);
+  const [isNoDisappearing, setIsNoDisappearing] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleYesClick = () => {
+    setButtonsVisible(false);
+    setShowVideo(true);
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play();
+      }
+    }, 300);
+  };
+
+  const handleNoClick = () => {
+    if (noClickCount >= 3) {
+      // Disappear after 3 clicks
+      setIsNoDisappearing(true);
+      setTimeout(() => {
+        setNoClickCount(noClickCount + 1);
+      }, 600);
+    } else {
+      // Fly to random position
+      const maxX = window.innerWidth - 200;
+      const maxY = window.innerHeight - 100;
+      const randomX = Math.random() * maxX - maxX / 2;
+      const randomY = Math.random() * maxY - maxY / 2;
+
+      setNoButtonPosition({ x: randomX, y: randomY });
+      setNoClickCount(noClickCount + 1);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-red-200 to-purple-300 flex items-center justify-center overflow-hidden relative">
+      {/* Animated background hearts */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute text-4xl opacity-20 animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${3 + Math.random() * 2}s`,
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            💖
+          </div>
+        ))}
+      </div>
+
+      {!showVideo ? (
+        <div className="relative z-10 text-center px-4">
+          {/* Main content */}
+          <div className="mb-12 animate-fadeIn">
+            <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 drop-shadow-lg animate-heartbeat">
+              💝
+            </h1>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+              Will you be my Valentine?
+            </h2>
+            <p className="text-xl md:text-2xl text-white/90 drop-shadow">
+              There's only one right answer... 💕
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-6 items-center justify-center relative">
+            {/* Yes Button */}
+            <button
+              onClick={handleYesClick}
+              className={`
+                px-12 py-6 text-2xl font-bold rounded-full
+                bg-gradient-to-r from-pink-500 to-red-500
+                hover:from-pink-600 hover:to-red-600
+                text-white shadow-2xl
+                transform hover:scale-110 active:scale-95
+                transition-all duration-300
+                ${!buttonsVisible ? "opacity-0 scale-0" : "opacity-100 scale-100"}
+              `}
+              style={{ transition: "all 0.5s ease" }}
+            >
+              Yes!
+            </button>
+
+            {/* No Button */}
+            {noClickCount <= 3 && (
+              <button
+                onClick={handleNoClick}
+                className={`
+                  px-12 py-6 text-2xl font-bold rounded-full
+                  bg-gradient-to-r from-gray-400 to-gray-500
+                  hover:from-gray-500 hover:to-gray-600
+                  text-white shadow-2xl
+                  transform hover:scale-110 active:scale-95
+                  ${!buttonsVisible ? "opacity-0 scale-0" : "opacity-100 scale-100"}
+                  ${isNoDisappearing ? "animate-fadeOut" : ""}
+                `}
+                style={{
+                  transition: "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                  transform: `translate(${noButtonPosition.x}px, ${noButtonPosition.y}px) ${
+                    !buttonsVisible ? "scale(0)" : "scale(1)"
+                  }`,
+                }}
+              >
+                No
+              </button>
+            )}
+          </div>
+
+          {noClickCount > 0 && noClickCount <= 3 && (
+            <p className="mt-8 text-lg text-white/80 animate-fadeIn">
+              {noClickCount === 1 && "Are you sure? Try clicking yes! 👉👈"}
+              {noClickCount === 2 && "The button is running away! Maybe that's a sign? 💭"}
+              {noClickCount === 3 && "One more click and it'll disappear forever! 🥺"}
+            </p>
+          )}
         </div>
-      </main>
+      ) : (
+        <div className="relative z-10 text-center px-4 max-w-4xl animate-fadeIn">
+          {/* Message */}
+          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-8 shadow-2xl">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+              <span className="animate-heartbeat">💕</span>
+              <span>Thank You!</span>
+              <span className="animate-heartbeat">💕</span>
+            </h3>
+            <p className="text-xl md:text-2xl text-white/95 leading-relaxed">
+              I'm sad that we can't be together on the 14th, but I promise I will make it good for you next weekend, after my birthday
+            </p>
+            <div className="mt-6 text-6xl animate-float">
+              💖
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
