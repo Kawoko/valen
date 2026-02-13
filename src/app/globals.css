@@ -40,6 +40,29 @@
   }
 }
 
+@keyframes bloom {
+  0% {
+    transform: translateY(60px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0) scale(1.2);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -54,4 +77,13 @@
 
 .animate-heartbeat {
   animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-bloom {
+  animation: bloom 1.5s ease-out forwards;
+}
+
+.animate-sway {
+  animation: sway 2s ease-in-out infinite;
+  transform-origin: bottom center;
 }

@@ -129,7 +129,7 @@ export default function ValentinePage() {
       ) : (
         <div className="relative z-10 text-center px-4 max-w-4xl animate-fadeIn">
           {/* Message */}
-          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-8 shadow-2xl">
+          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-8 shadow-2xl relative overflow-hidden">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <span className="animate-heartbeat">💕</span>
               <span>Thank You!</span>
@@ -140,6 +140,48 @@ export default function ValentinePage() {
             </p>
             <div className="mt-6 text-6xl animate-float">
               💖
+            </div>
+            
+            {/* Dirt Patch with Blooming Flowers */}
+            <div className="mt-8 relative pt-16">
+              {/* Flowers growing from dirt */}
+              <div className="absolute top-0 left-0 right-0 flex justify-center items-end gap-6 px-8">
+                {/* Tulip 1 */}
+                <div className="animate-bloom animate-sway" style={{ animationDelay: "0.3s" }}>
+                  <div className="text-5xl">🌷</div>
+                </div>
+                
+                {/* Daisy */}
+                <div className="animate-bloom animate-sway" style={{ animationDelay: "0.6s" }}>
+                  <div className="text-5xl">🌼</div>
+                </div>
+                
+                {/* Sunflower */}
+                <div className="animate-bloom animate-sway" style={{ animationDelay: "0.9s" }}>
+                  <div className="text-5xl">🌻</div>
+                </div>
+                
+                {/* Hibiscus */}
+                <div className="animate-bloom animate-sway" style={{ animationDelay: "1.2s" }}>
+                  <div className="text-5xl">🌺</div>
+                </div>
+                
+                {/* Tulip 2 */}
+                <div className="animate-bloom animate-sway" style={{ animationDelay: "1.5s" }}>
+                  <div className="text-5xl">🌷</div>
+                </div>
+              </div>
+              
+              {/* Dirt Patch */}
+              <div className="h-16 bg-gradient-to-b from-amber-800 to-amber-950 rounded-lg relative">
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute w-2 h-2 bg-amber-900 rounded-full top-2 left-4"></div>
+                  <div className="absolute w-1 h-1 bg-amber-950 rounded-full top-4 left-8"></div>
+                  <div className="absolute w-2 h-2 bg-amber-900 rounded-full top-6 left-12"></div>
+                  <div className="absolute w-1 h-1 bg-amber-950 rounded-full top-3 right-8"></div>
+                  <div className="absolute w-2 h-2 bg-amber-900 rounded-full top-5 right-4"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
